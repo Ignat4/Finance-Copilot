@@ -205,7 +205,7 @@ function buildPrompt(summary, lang){
 }
 
 async function callHF(token, prompt){
-  const res = await fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+  const res = await fetch("https://router.huggingface.co/hf-inference/models/tiiuae/falcon-7b-instruct", {
     method:"POST",
     headers:{
       "Authorization":"Bearer " + token,
