@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finance Copilot — персональные рекомендации</title>
+  <style>
+    :root { --bg:#f7f7fb; --card:#fff; --text:#111; --muted:#666; --accent:#2b59c3; --error:#c0392b; --ok:#198754; }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+    .wrap{max-width:940px;margin:40px auto;padding:20px}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;color:var(--muted)}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.08);padding:20px}
+    h1{margin:0 0 8px;font-size:22px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+    .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin:12px 0}
+    label{font-size:13px;color:var(--muted)}
+    input[type="file"],input[type="text"],select,button{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;background:#fff}
+    input[type="text"]{font-family:monospace}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;font-weight:600}
+    button[disabled]{opacity:.6;cursor:not-allowed}
+    .mini{font-size:13px;color:var(--muted);margin-top:6px}
+    .status{margin:6px 0 0 0;font-size:13px;color:var(--muted)}
+    .status span.bad{color:var(--error)} .status span.ok{color:var(--ok)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .kpi{background:#fafafe;border:1px solid #eef; border-radius:10px; padding:10px}
+    .kpi b{display:block;font-size:18px;color:var(--text)}
+    pre{white-space:pre-wrap;background:#fafafa;border:1px solid #eee;border-radius:10px;padding:12px}
+    .muted{color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    a.link{color:var(--accent);text-decoration:none}
+    .errlist{margin:8px 0;padding-left:18px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="muted">MVP • работает локально и на GitHub Pages</div>
+      <a href="#format" class="link">Документация формата</a>
+    </div>
+
+    <div class="card">
+      <h1>Finance Copilot — персональные рекомендации</h1>
+      <div class="row3">
+        <div>
+          <label>Загрузить Excel (.xlsx/.xls)</label>
+          <input id="file" type="file" accept=".xlsx,.xls" />
+          <div id="fileInfo" class="mini"></div>
+        </div>
+        <div>
+          <label>Hugging Face API Token</label>
+          <input id="token" type="text" placeholder="hf_xxx..." />
+        </div>
+        <div>
+          <label>Язык рекомендации</label>
+          <select id="lang">
+            <option value="RU">RU</option>
+            <option value="EN">EN</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions" style="margin:10px 0 0">
+        <button id="analyze" disabled>Проанализировать</button>
+        <button id="download" disabled>Скачать сводку (.json)</button>
+      </div>
+      <div id="status" class="status">Состояние: <span>idle</span></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 10px">Проверка и сводка</h2>
+      <div id="summaryInfo" class="mini">Загрузите файл, чтобы увидеть сводку.</div>
+      <div id="summaryKpis" class="grid" style="margin-top:10px"></div>
+      <div id="topCats" class="mini" style="margin-top:8px"></div>
+      <div id="errors" class="mini" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 10px">Рекомендация</h2>
+      <pre id="advice" class="muted">Пока пусто.</pre>
+    </div>
+
+    <div id="format" class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 10px">Документация формата</h2>
+      <div class="mini">
+        Колонки (строка 1 — заголовки):
+        <code>Дата</code> (YYYY-MM-DD), <code>Категория</code>, <code>Описание</code>, <code>Сумма</code> (расход &lt; 0, доход &gt; 0), <code>Тип операции</code> (Доход|Расход)
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
